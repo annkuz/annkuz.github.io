@@ -22,6 +22,9 @@ const fifteenPuzzle = () => {
 
   let currentCubesState = {};
   let movesCounter = 0;
+  let timeCounterStart = 0;
+  let timeCounterNow = 0;
+  let timerId;
 
   function getAllowedMoves( emptyCellPos ) {
     let allowedMoves = [];
@@ -162,17 +165,77 @@ const fifteenPuzzle = () => {
 
   function incrementMovesCounter() {
 
-    const counterElem = document.querySelector("[data-countername='moves']");
+    const counterNode = document.querySelector("[data-countername='moves']");
 
-    counterElem.textContent = ++movesCounter;
+    counterNode.textContent = ++movesCounter;
 
   }
 
   function resetMovesCounter() {
-    const counterElem = document.querySelector("[data-countername='moves']");
+    const counterNode = document.querySelector("[data-countername='moves']");
 
     movesCounter = 0;
-    counterElem.textContent = movesCounter;
+    counterNode.textContent = movesCounter;
+  }
+
+  function updateTimeCounter() {
+
+    timeCounterNow = new Date();
+
+    updateFormattedTime(timeCounterStart, timeCounterNow);
+
+  }
+
+  function updateFormattedTime( timeStart, timeNow ) {
+
+    const counterNode = document.querySelector("[data-countername='time']");
+
+    let timeStr = '00:00:00';
+    let hours = timeNow.getHours() - timeStart.getHours();
+    let minutes = timeNow.getMinutes() - timeStart.getMinutes();
+    let seconds = timeNow.getSeconds() - timeStart.getSeconds();
+
+    if( hours < 10) {
+      hours = `0${hours}`;
+    }
+    if( minutes < 10) {
+      minutes = `0${minutes}`;
+    }
+    if( seconds < 10) {
+      seconds = `0${seconds}`;
+    }
+
+    if( timeStart !== 0) {
+      timeStr = `${hours}:${minutes}:${seconds}`;
+    }
+
+    counterNode.textContent = timeStr;
+
+  }
+
+  function startTimeCounter() {
+
+    timeCounterStart = new Date();
+
+    timerId = setInterval(updateTimeCounter, 500);
+
+  }
+
+  function stopTimeCounter() {
+
+    clearInterval(timerId);
+
+  }
+
+  function resetTimeCounter() {
+
+    clearInterval(timerId);
+
+    timeCounterStart = 0;
+    timeCounterNow = 0;
+
+    updateFormattedTime( timeCounterStart );
+
   }
 
   function handleCubeClick(event) {
@@ -189,6 +252,7 @@ const fifteenPuzzle = () => {
       incrementMovesCounter();
 
       if( isVictory() ) {
+        stopTimeCounter();
         showWinLayer();
       };
     }
@@ -213,6 +277,8 @@ const fifteenPuzzle = () => {
       btn.addEventListener("click", restartPuzzle );
     });
 
+    startTimeCounter();
+
   }
 
   function restartPuzzle() {
@@ -227,13 +293,14 @@ const fifteenPuzzle = () => {
 
     resetMovesCounter();
 
+    resetTimeCounter();
+
+    startTimeCounter();
+
   }
 
 
-
   initPuzzle();
-
-
 
 }
 
