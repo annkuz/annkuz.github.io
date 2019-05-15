@@ -21,6 +21,7 @@ const fifteenPuzzle = () => {
   };
 
   let currentCubesState = {};
+  let movesCounter = 0;
 
   function getAllowedMoves( emptyCellPos ) {
     let allowedMoves = [];
@@ -159,21 +160,38 @@ const fifteenPuzzle = () => {
     winLayer.classList.remove('puzzle-win-layer--active');
   }
 
+  function incrementMovesCounter() {
+
+    const counterElem = document.querySelector("[data-countername='moves']");
+
+    counterElem.textContent = ++movesCounter;
+
+  }
+
+  function resetMovesCounter() {
+    const counterElem = document.querySelector("[data-countername='moves']");
+
+    movesCounter = 0;
+    counterElem.textContent = movesCounter;
+  }
+
   function handleCubeClick(event) {
-      const cube = event.target;
-      const cubePos = Number(cube.dataset.cubeposition);
-      const emptyCube = document.querySelector(".cube--empty");
+    const cube = event.target;
+    const cubePos = Number(cube.dataset.cubeposition);
+    const emptyCube = document.querySelector(".cube--empty");
 
-      const allowedMoves = getAllowedMoves( currentCubesState.empty );
+    const allowedMoves = getAllowedMoves( currentCubesState.empty );
 
-      if( allowedMoves.indexOf(cubePos) !== -1 ) {
-        moveCube( cube, currentCubesState.empty );
-        moveCube( emptyCube ,cubePos );
+    if( allowedMoves.indexOf(cubePos) !== -1 ) {
+      moveCube( cube, currentCubesState.empty );
+      moveCube( emptyCube ,cubePos );
 
-        if( isVictory() ) {
-          showWinLayer();
-        };
-      }
+      incrementMovesCounter();
+
+      if( isVictory() ) {
+        showWinLayer();
+      };
+    }
 
   }
 
@@ -206,6 +224,8 @@ const fifteenPuzzle = () => {
     setCubesPosition( cubesNodeList, currentCubesState );
 
     hideWinLayer();
+
+    resetMovesCounter();
 
   }
 

@@ -124,3 +124,23 @@ body {
 .btn--shuffle:focus {
   background-color: #726CAFd8;
 }
+
+.counters-wrapper {
+  width: 350px;
+  display: flex;
+  flex-flow: row nowrap;
+  margin-bottom: 2rem;
+}
+
+.counter {
+  width: 50%;
+}
+
+.counter__title,
+.counter__num {
+  display: inline-block;
+  padding-right: 1rem;
+  font-size: 1.1rem;
+  color: #333;
+  box-sizing: border-box;
+}
