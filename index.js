@@ -163,6 +163,12 @@ const fifteenPuzzle = () => {
     winLayer.classList.remove('puzzle-win-layer--active');
   }
 
+  function hideStartLayer() {
+    const winLayer = document.querySelector('.puzzle-start-layer');
+
+    winLayer.classList.remove('puzzle-start-layer--active');
+  }
+
   function incrementMovesCounter() {
 
     const counterNode = document.querySelector("[data-countername='moves']");
@@ -191,21 +197,23 @@ const fifteenPuzzle = () => {
     const counterNode = document.querySelector("[data-countername='time']");
 
     let timeStr = '00:00:00';
-    let hours = timeNow.getHours() - timeStart.getHours();
-    let minutes = timeNow.getMinutes() - timeStart.getMinutes();
-    let seconds = timeNow.getSeconds() - timeStart.getSeconds();
-
-    if( hours < 10) {
-      hours = `0${hours}`;
-    }
-    if( minutes < 10) {
-      minutes = `0${minutes}`;
-    }
-    if( seconds < 10) {
-      seconds = `0${seconds}`;
-    }
 
     if( timeStart !== 0) {
+
+      let hours = timeNow.getHours() - timeStart.getHours();
+      let minutes = timeNow.getMinutes() - timeStart.getMinutes();
+      let seconds = timeNow.getSeconds() - timeStart.getSeconds();
+
+      if( hours < 10) {
+        hours = `0${hours}`;
+      }
+      if( minutes < 10) {
+        minutes = `0${minutes}`;
+      }
+      if( seconds < 10) {
+        seconds = `0${seconds}`;
+      }
+
       timeStr = `${hours}:${minutes}:${seconds}`;
     }
 
@@ -263,47 +271,58 @@ const fifteenPuzzle = () => {
 
     const cubesNodeList = document.querySelectorAll(".cube");
 
+    const startBtns = document.querySelectorAll("[data-action='start']");
+
     const restartBtns = document.querySelectorAll("[data-action='restart']");
     
-    currentCubesState = shuffleCubesState( winCubesState );
+    // currentCubesState = shuffleCubesState( winCubesState );
 
-    setCubesPosition( cubesNodeList, currentCubesState );
+    // setCubesPosition( cubesNodeList, currentCubesState );
 
     cubesNodeList.forEach((cubeNode) => {
       cubeNode.addEventListener("click", handleCubeClick );
+    });
+
+    startBtns.forEach((btn) => {
+      btn.addEventListener("click", startPuzzle );
     });
 
     restartBtns.forEach((btn) => {
       btn.addEventListener("click", restartPuzzle );
     });
 
-    startTimeCounter();
-
   }
 
-  function restartPuzzle() {
+  
+  function startPuzzle() {
 
     const cubesNodeList = document.querySelectorAll(".cube");
-
+    
     currentCubesState = shuffleCubesState( winCubesState );
-
+    
     setCubesPosition( cubesNodeList, currentCubesState );
+    
+    hideStartLayer();
+    
+    startTimeCounter();
+  }
+  
+  function restartPuzzle() {
 
-    hideWinLayer();
-
+    
     resetMovesCounter();
 
     resetTimeCounter();
+    
+    hideWinLayer();
 
-    startTimeCounter();
+    startPuzzle();
 
   }
-
 
   initPuzzle();
 
 }
-
 
 document.addEventListener("DOMContentLoaded", function() { 
 
