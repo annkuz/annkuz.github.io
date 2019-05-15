@@ -188,8 +188,6 @@ const fifteenPuzzle = () => {
 
     timeCounterNow = new Date();
 
-    updateFormattedTime(timeCounterStart, timeCounterNow);
-
   }
 
   function updateFormattedTime( timeStart, timeNow ) {
@@ -198,21 +196,18 @@ const fifteenPuzzle = () => {
 
     let timeStr = '00:00:00';
 
-    if( timeStart !== 0) {
+    if( timeStart !== 0 && timeNow !== 0) {
 
-      let hours = timeNow.getHours() - timeStart.getHours();
-      let minutes = timeNow.getMinutes() - timeStart.getMinutes();
-      let seconds = timeNow.getSeconds() - timeStart.getSeconds();
+      let interval = timeNow - timeStart;
 
-      if( hours < 10) {
-        hours = `0${hours}`;
-      }
-      if( minutes < 10) {
-        minutes = `0${minutes}`;
-      }
-      if( seconds < 10) {
-        seconds = `0${seconds}`;
-      }
+      let seconds = Math.floor((interval / 1000) % 60);
+      let minutes = Math.floor( (interval / (1000 * 60) % 60));
+      let hours = Math.floor( (interval / (1000 * 60 *60) % 24));
+
+      seconds = (seconds < 10)? '0' + seconds : seconds;
+      minutes = (minutes < 10)? '0' + minutes : minutes;
+      hours = (hours < 10)? '0' + hours : hours;
+
 
       timeStr = `${hours}:${minutes}:${seconds}`;
     }
@@ -225,7 +220,10 @@ const fifteenPuzzle = () => {
 
     timeCounterStart = new Date();
 
-    timerId = setInterval(updateTimeCounter, 500);
+    timerId = setInterval(function() {
+      updateTimeCounter();
+      updateFormattedTime(timeCounterStart, timeCounterNow);
+    }, 1000);
 
   }
 
