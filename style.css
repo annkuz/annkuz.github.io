@@ -1,12 +1,30 @@
 
+body {
+  margin: 0;
+  font-family: 'Roboto', sans-serif;
+}
+
+.wrapper {
+  min-height: 100vh;
+  display: flex;
+  flex-flow: column nowrap;
+  align-items: center;
+  background-color: #F6F7F8;
+  padding-top: 2rem;
+  box-sizing: border-box;
+}
+
 .title {
+  font-size: 3rem;
+  color: #726CAF;
   text-align: center;
+  margin-bottom: 4rem;
 }
 
 .puzzle-container {
   width: 400px;
   height: 400px;
-  margin: 3rem auto 0;
+  margin-bottom: 3rem;
   position: relative;
   box-sizing: content-box;
   border: 10px solid #333;
@@ -32,7 +50,7 @@
   box-sizing: border-box;
   color: #333;
   font-size: 2rem;
-  font-weight: 600;
+  font-weight: 700;
   background-color: #aaa;
   cursor: pointer;
 }
@@ -49,15 +67,60 @@
   position: absolute;
   top: 0;
   left: 0;
-  background-color: rgba(100, 150, 250, .8);
+  background-color: rgba(100, 150, 250, .9);
   flex-flow: column nowrap;
   justify-content: center;
   align-items: center;
   color: #333;
   font-size: 3rem;
-  font-weight: 600;
+  font-weight: 700;
 }
 
 .puzzle-win-layer--active {
   display: flex;
+}
+
+.puzzle-win-layer__btn {
+  display: block;
+  position: relative;
+  color: #fff;
+  font-size: 2rem;
+  font-weight: 300;
+  margin-top: 2rem;
+  padding-left: 2.7rem;
+  box-sizing: border-box;
+  cursor: pointer;
+}
+
+.puzzle-win-layer__btn:before {
+  content: '';
+  display: block;
+  position: absolute;
+  top: .3rem;
+  left: 0;
+  width: 2rem;
+  height: 2rem;
+  background-image: url('./images/reload.png');
+  background-repeat: no-repeat;
+  background-size: contain;
+}
+
+.btn--shuffle {
+  text-transform: uppercase;
+  max-width: 100%;
+  padding: 1rem 4.5rem;
+  color: #F6F7F8;
+  font-size: 1rem;
+  font-weight: 700;
+  background-color: #726CAF;
+  cursor: pointer;
+  transition: all .3s ease;
+  border: none;
+  outline: none;
+  box-sizing: border-box;
+}
+
+.btn--shuffle:hover, 
+.btn--shuffle:focus {
+  background-color: #726CAFd8;
 }

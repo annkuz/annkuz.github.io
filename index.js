@@ -179,21 +179,27 @@ const fifteenPuzzle = () => {
 
   function initPuzzle() {
 
-    let cubesNodeList = document.querySelectorAll(".cube");
+    const cubesNodeList = document.querySelectorAll(".cube");
+
+    const restartBtns = document.querySelectorAll("[data-action='restart']");
     
     currentCubesState = shuffleCubesState( winCubesState );
 
     setCubesPosition( cubesNodeList, currentCubesState );
 
-    for ( let cubeNode of cubesNodeList ) {
+    cubesNodeList.forEach((cubeNode) => {
       cubeNode.addEventListener("click", handleCubeClick );
-    }
+    });
+
+    restartBtns.forEach((btn) => {
+      btn.addEventListener("click", restartPuzzle );
+    });
 
   }
 
   function restartPuzzle() {
 
-    let cubesNodeList = document.querySelectorAll(".cube");
+    const cubesNodeList = document.querySelectorAll(".cube");
 
     currentCubesState = shuffleCubesState( winCubesState );
 
