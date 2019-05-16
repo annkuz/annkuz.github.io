@@ -88,8 +88,10 @@ const fifteenPuzzle = () => {
 
     for ( let cube in cubesState ) {
 
-      if( cube === 'empty' )
+      if( cube === 'empty' ) {
         cubesArr.push([0, cubesState[cube]]);
+        continue;
+      }
 
       cubesArr.push([cubeNumber, cubesState[cube]]);
 
@@ -103,14 +105,14 @@ const fifteenPuzzle = () => {
 
     for ( let i = 0; i < cubesArr.length; ++i ) {
 
-      if( cubesArr[i][0] ){
+      if( cubesArr[i][0] == 0 ){
+        continue;
+      }
 
-        for( let j = 0; j < i; ++j ) {
+      for( let j = 0; j < i; ++j ) {
 
-          if( cubesArr[j][0] > cubesArr[i][0] ) {
-            ++n;
-          }
-
+        if( cubesArr[j][0] > cubesArr[i][0] ) {
+          ++n;
         }
       }
     }
@@ -272,10 +274,6 @@ const fifteenPuzzle = () => {
     const startBtns = document.querySelectorAll("[data-action='start']");
 
     const restartBtns = document.querySelectorAll("[data-action='restart']");
-    
-    // currentCubesState = shuffleCubesState( winCubesState );
-
-    // setCubesPosition( cubesNodeList, currentCubesState );
 
     cubesNodeList.forEach((cubeNode) => {
       cubeNode.addEventListener("click", handleCubeClick );
@@ -306,7 +304,6 @@ const fifteenPuzzle = () => {
   }
   
   function restartPuzzle() {
-
     
     resetMovesCounter();
 
